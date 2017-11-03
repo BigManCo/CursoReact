@@ -1,117 +1,65 @@
-import React from 'react';
+import React from 'react'
 import ReactDOM from 'react-dom';
-import './index.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
+const BasicExample = () => (
+  <Router>
+    <div>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/home2">Home2</Link></li>
+        <li><Link to="/home2/home3/a">Home2</Link></li>
+        <li><Link to="/home2/otra cosa/dsa">otra cosa</Link></li>
+        <li><Link to="/home2/12312/as">1233</Link></li>
+      </ul>
 
-class Home extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {...props.data};
-	}
+      <hr/>
 
-	render () {
-		var key_menu=0;
-		var key_nav=0;
-		var key_tabla=0;
-		return (
-			<div className="container">
-				<header>
-      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a className="navbar-brand" href="#">Dashboard</a>
-        <button className="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul className="navbar-nav mr-auto">
-          	{this.state.menu.map(function(m) {
-          			key_menu++;
-				return (
-						<li key={key_menu} className="nav-item active">
-			              <a className="nav-link" href="#">{m}</a>
-			            </li>
-					)
-			  })}
-            
-          </ul>
-          <form className="form-inline mt-2 mt-md-0">
-            <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
-      </nav>
-    </header>
-
-    <div className="container-fluid">
-      <div className="row">
-        <nav className="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-          <ul className="nav nav-pills flex-column">
-          
-          </ul>
-
-        </nav>
-
-        <main role="main" className="col-sm-9 ml-sm-auto col-md-10 pt-3">
-          <h1>Dashboard</h1>
-		{this.state.nav.map(function(m) {
-          			key_nav++;
-				return (
-			             <section key={key_nav} className="row text-center placeholders">
-				            <div className="col-6 col-sm-3 placeholder">
-				              <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" className="img-fluid rounded-circle" alt="Generic placeholder thumbnail" />
-				              <h4>{m}</h4>
-				              <div className="text-muted">Something else</div>
-				            </div>
-				          </section>
-					)
-			  })}
-         
-
-          <h2>Section title</h2>
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                </tr>
-              </thead>
-              <tbody>
-              {this.state.tabla.map(function(m) {
-          			key_tabla++;
-				return (
-			            <tr  key={key_tabla}>
-		                  <td>{m}</td>
-		                  <td>Lorem</td>
-		                  <td>ipsum</td>
-		                  <td>dolor</td>
-		                  <td>sit</td>
-		                </tr>
-					)
-			  })}
-                
-              </tbody>
-            </table>
-          </div>
-        </main>
-      </div>
+      <Route exact path="/" component={Home}/>
+      <Route  path="/home2" component={Home2}/>
     </div>
-			</div>
-		);
-	}
+  </Router>
+)
+
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+  </div>
+)
+const Home2 = () => (
+  <div>
+    <h2>CASA</h2>
+    <Route  path="/home2/:topicId/:otra" component={Home3}/>
+  </div>
+)
+
+
+class Home3 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos:{...props.datos},
+      value:"",
+      opp:""
+    };
+  }
+
+
+  render () {
+    return (
+      <div>
+        <h1>{this.props.match.url}</h1>
+        <h2>OTRA casa {this.props.match.params.topicId} {this.props.match.params.otra}</h2>
+      </div>
+    );
+  }
 }
 
 
-const data= {
-	menu:["Inicio"],
-	nav:["uno","dos","tres"],
-	tabla:["juan","pepe"]
-}
 
-
-
-ReactDOM.render(<Home data={data}/>, 
-	document.getElementById('root'));
+ReactDOM.render(<BasicExample/>, 
+  document.getElementById('root'));

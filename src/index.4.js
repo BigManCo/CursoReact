@@ -2,7 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-
+// using ES6 modules
+import { Router, Route, Switch } from 'react-router'
+ 
+ 
 function Content(props) {
   return (
   		<div className="content">
@@ -47,11 +50,12 @@ class Home extends React.Component {
 	    this.setState({value: event.target.value});
 	  }
 
+
 	addName(event){
 		event.preventDefault();
 		 this.setState(function(prevState){
 			var nombres = prevState.datos.nombre;
-		  	nombres.push({
+			nombres.push({
 		  		id:nombres.length+1,
 		  		nombre:prevState.value,
 		  	})
